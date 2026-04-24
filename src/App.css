@@ -1,0 +1,660 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+}
+
+/* ---------- Theme variables ---------- */
+.app.light {
+  --bg: #f5f5f5;
+  --container-bg: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #666;
+  --border: #e0e0e0;
+  --accent: #4a90d9;
+  --accent-hover: #357abd;
+  --danger: #d9534f;
+  --danger-hover: #c9302c;
+  --input-bg: #fff;
+  --item-hover: #fafafa;
+  --completed-text: #aaa;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --calendar-hover: #e8f0fe;
+  --calendar-selected: #4a90d9;
+  --calendar-today: #e3f2fd;
+  --weekend-text: #999;
+}
+
+.app.dark {
+  --bg: #1a1a2e;
+  --container-bg: #16213e;
+  --text: #eee;
+  --text-secondary: #aaa;
+  --border: #2a2a4a;
+  --accent: #5dade2;
+  --accent-hover: #3498db;
+  --danger: #e74c3c;
+  --danger-hover: #c0392b;
+  --input-bg: #1a1a2e;
+  --item-hover: #1a1a3e;
+  --completed-text: #555;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --calendar-hover: #1e2a4a;
+  --calendar-selected: #5dade2;
+  --calendar-today: #1a2a4e;
+  --weekend-text: #666;
+}
+
+/* ---------- Layout ---------- */
+.app {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+}
+
+/* ---------- Loading ---------- */
+.loading-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #666;
+  background: #f5f5f5;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e0e0e0;
+  border-top-color: #4a90d9;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-tasks {
+  text-align: center;
+  padding: 32px 0;
+  color: var(--text-secondary);
+}
+
+.loading-tasks .loading-spinner {
+  margin: 0 auto 12px;
+  border-color: var(--border);
+  border-top-color: var(--accent);
+}
+
+/* ---------- Header ---------- */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-greeting {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: var(--text);
+  transition: border-color 0.2s;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+}
+
+.logout-btn {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* ---------- Date Selector ---------- */
+.date-selector {
+  margin-bottom: 16px;
+}
+
+.calendar-toggle-btn {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  background: var(--container-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendar-toggle-btn:hover {
+  border-color: var(--accent);
+}
+
+.today-badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+/* ---------- Calendar ---------- */
+.calendar {
+  background: var(--container-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--card-shadow);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.calendar-month-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.calendar-nav-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.calendar-nav-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.calendar-today-btn {
+  display: block;
+  margin: 0 auto 12px;
+  padding: 4px 16px;
+  font-size: 0.8rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.calendar-today-btn:hover {
+  background: var(--accent-hover);
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 4px;
+}
+
+.calendar-weekday {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 4px 0;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.15s;
+  position: relative;
+}
+
+.calendar-day.empty {
+  cursor: default;
+}
+
+.calendar-day:not(.empty):hover {
+  background: var(--calendar-hover);
+}
+
+.calendar-day.today {
+  background: var(--calendar-today);
+  font-weight: 700;
+}
+
+.calendar-day.selected {
+  background: var(--calendar-selected);
+  color: #fff;
+  font-weight: 700;
+}
+
+.calendar-day.weekend {
+  color: var(--weekend-text);
+}
+
+.calendar-day.selected.weekend {
+  color: #fff;
+}
+
+.task-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px;
+}
+
+.calendar-day.selected .task-dot {
+  background: #fff;
+}
+
+/* ---------- Form ---------- */
+.todo-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.todo-input {
+  flex: 1;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.todo-input:focus {
+  border-color: var(--accent);
+}
+
+.todo-add-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.todo-add-btn:hover {
+  background: var(--accent-hover);
+}
+
+/* ---------- Stats ---------- */
+.todo-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+/* ---------- Filter ---------- */
+.todo-filter {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.filter-btn {
+  flex: 1;
+  padding: 6px 0;
+  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* ---------- List ---------- */
+.todo-list {
+  list-style: none;
+}
+
+.empty-message {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 32px 0;
+  font-size: 0.95rem;
+}
+
+/* ---------- Item ---------- */
+.todo-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: var(--container-bg);
+  transition: background 0.2s;
+}
+
+.todo-item:hover {
+  background: var(--item-hover);
+}
+
+.todo-view-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.todo-edit-row {
+  width: 100%;
+}
+
+.todo-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.todo-text {
+  flex: 1;
+  font-size: 0.95rem;
+  word-break: break-word;
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: var(--completed-text);
+}
+
+.todo-edit-input {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--input-bg);
+  color: var(--text);
+  outline: none;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.todo-edit-btn,
+.todo-delete-btn,
+.todo-move-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px 6px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.todo-item:hover .todo-edit-btn,
+.todo-item:hover .todo-delete-btn,
+.todo-item:hover .todo-move-btn {
+  opacity: 1;
+}
+
+.todo-edit-btn {
+  color: var(--text-secondary);
+}
+
+.todo-edit-btn:hover {
+  color: var(--accent);
+}
+
+.todo-delete-btn {
+  color: var(--text-secondary);
+}
+
+.todo-delete-btn:hover {
+  color: var(--danger);
+}
+
+.todo-move-btn {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.todo-move-btn:hover {
+  color: var(--accent);
+}
+
+/* ---------- Clear Completed ---------- */
+.clear-completed-btn {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px;
+  font-size: 0.9rem;
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clear-completed-btn:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* ---------- Auth Pages ---------- */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 16px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px 32px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.auth-card h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.auth-subtitle {
+  color: #888;
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+}
+
+.auth-error {
+  background: #fff0f0;
+  color: #d9534f;
+  border: 1px solid #ffd0d0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-group input {
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #667eea;
+}
+
+.auth-btn {
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  margin-top: 8px;
+}
+
+.auth-btn:hover {
+  opacity: 0.9;
+}
+
+.auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.auth-switch a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
